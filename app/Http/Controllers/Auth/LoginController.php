@@ -36,4 +36,30 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * @param Request $request
+     * @param $user
+     * @return ApiResource
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        return new ApiResource([$user]);
+    }
+
+    /**
+     * The user has logged out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    protected function loggedOut(Request $request)
+    {
+        return new ApiResource([]);
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw new ApplicationException(ApplicationException::LOGIN_FAIL);
+    }
 }
