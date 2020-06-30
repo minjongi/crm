@@ -44,6 +44,14 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
+        if ($user->active == UserRepository::INACTIVE) {
+            $this->guard()->logout();
+            $e = new ApplicationException(ApplicationException::UNAUTHENTICATED);
+            return response(new FailCollection([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ]))->setStatusCode(422);
+        }
         return new ApiResource([$user]);
     }
 

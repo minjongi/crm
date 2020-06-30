@@ -30,6 +30,7 @@ export default {
     login({commit}, payload) {
         let params = {
             email: payload.email,
+            name: payload.name,
             password: payload.password,
         }
 
